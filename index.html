@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GlideScript — Playground</title>
+  <meta name="description" content="Write GlideScript code and preview the compiled HTML output in real time. A declarative language for building web apps." />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'><rect width='32' height='32' rx='6' fill='%236e6eff'/><text x='50%25' y='55%25' dominant-baseline='middle' text-anchor='middle' fill='white' font-family='system-ui' font-weight='700' font-size='18'>G</text></svg>" />
+</head>
+<body>
+  <div id="app">
+
+    <!-- Header -->
+    <header class="header">
+      <div class="header-left">
+        <div class="logo">
+          <div class="logo-mark">G</div>
+          GlideScript
+        </div>
+        <div class="header-divider"></div>
+        <span class="file-name" id="file-name">untitled.gs</span>
+      </div>
+      <div class="header-right">
+        <button class="btn btn-ghost" id="btn-open" title="Open .gs file">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M2 13V3a1 1 0 011-1h4l2 2h4a1 1 0 011 1v1"/>
+            <path d="M2 13l1.5-6h11l-1.5 6H2z"/>
+          </svg>
+          Open
+        </button>
+        <button class="btn btn-ghost" id="btn-download" title="Export as HTML">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M8 2v9"/>
+            <path d="M4.5 7.5L8 11l3.5-3.5"/>
+            <path d="M2 13h12"/>
+          </svg>
+          Export
+        </button>
+        <button class="btn btn-primary" id="btn-compile" title="Compile now">
+          <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+            <polygon points="5,3 13,8 5,13"/>
+          </svg>
+          Compile
+        </button>
+      </div>
+    </header>
+
+    <!-- Workspace -->
+    <div class="workspace">
+
+      <!-- Editor -->
+      <div class="editor-panel">
+        <div class="panel-bar">
+          <span class="panel-label">Editor</span>
+          <span class="panel-status" id="compile-status"></span>
+        </div>
+        <div class="editor-container" id="editor-container"></div>
+      </div>
+
+      <!-- Resize handle -->
+      <div class="resize-handle" id="resize-handle"></div>
+
+      <!-- Preview & Docs Panel -->
+      <div class="preview-panel">
+        <div class="panel-bar">
+          <div class="panel-tabs">
+            <button class="panel-tab active" id="tab-preview">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;">
+                <rect x="2" y="2" width="12" height="10" rx="1.5" />
+                <path d="M6 14h4M8 12v2" />
+              </svg>
+              Live Preview
+            </button>
+            <button class="panel-tab" id="tab-docs">
+              <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" style="width:13px;height:13px;">
+                <path d="M3 2h10a1 1 0 011 1v10a1 1 0 01-1 1H3a1 1 0 01-1-1V3a1 1 0 011-1z" />
+                <path d="M6 5h4M6 8h4M6 11h2" />
+              </svg>
+              Documentation
+            </button>
+          </div>
+        </div>
+        
+        <iframe class="preview-iframe" id="preview-frame" sandbox="allow-scripts" title="Live preview of compiled GlideScript output"></iframe>
+        
+        <div class="docs-panel" id="docs-panel" style="display: none;">
+          <div class="docs-layout">
+            <aside class="docs-sidebar">
+              <nav class="docs-nav">
+                <a href="#doc-intro" class="docs-nav-link active">Getting Started</a>
+                <a href="#doc-pages" class="docs-nav-link">Pages & Navigation</a>
+                <a href="#doc-typography" class="docs-nav-link">Text & Spacing</a>
+                <a href="#doc-components" class="docs-nav-link">Components</a>
+                <a href="#doc-variables" class="docs-nav-link">Variables & State</a>
+                <a href="#doc-styling" class="docs-nav-link">Styling System</a>
+                <a href="#doc-examples" class="docs-nav-link">Full Examples</a>
+              </nav>
+            </aside>
+            <div class="docs-content">
+              
+              <section id="doc-intro" class="doc-section">
+                <h1 class="doc-h1">GlideScript Language Reference</h1>
+                <p class="doc-p">
+                  GlideScript is a declarative, design-focused programming language designed to build single-page web applications. By focusing on fluid viewport layouts, layout scaling, and state-driven bindings, GlideScript lets you write lightweight code while the compiler generates a fully optimized standalone HTML/CSS/JS application.
+                </p>
+                <div class="doc-alert doc-alert-info">
+                  <strong>How it works:</strong> The editor compiles your GlideScript code on the fly and renders it inside the Live Preview pane. You can export the output as a single, self-contained HTML file ready for Vercel, Netlify, or local hosting.
+                </div>
+              </section>
+
+              <section id="doc-pages" class="doc-section">
+                <h2 class="doc-h2">Pages & Navigation</h2>
+                <p class="doc-p">
+                  Every GlideScript application is composed of one or more pages. A page block is declared using the `pg.[page_name] [ ... ]` syntax.
+                </p>
+                <ul class="doc-ul">
+                  <li><strong>Default Page:</strong> The first page declared in your source code is treated as the initial home page.</li>
+                  <li><strong>Auto Navigation:</strong> If your script contains 2 or more visible pages, the compiler generates a sleek top navigation bar automatically.</li>
+                  <li><strong>Hidden Pages:</strong> You can hide a page from the navigation bar (e.g. for sub-pages or administration panels) by including the `pg.hide = true` directive inside the page block.</li>
+                </ul>
+                <div class="code-block-wrapper">
+                  <pre><code>// Define the home page (visible by default)
+pg.home [
+  text = "Welcome to the Home Page"
+  add.button(text = "Go to Admin (Hidden)", click = open pg.admin, colour = #2a2a38, edges = rounded)
+]
+
+// Define a hidden page (accessible only via navigation triggers)
+pg.admin [
+  pg.hide = true
+  text = "Welcome to the Secret Admin Panel!"
+  add.button(text = "Return Home", click = open pg.home, edges = rounded)
+]</code></pre>
+                  <div class="code-actions">
+                    <button class="code-action-btn copy-btn" onclick="copyCode(this)">Copy</button>
+                    <button class="code-action-btn load-btn" onclick="loadExample(this)">Load Code</button>
+                  </div>
+                </div>
+              </section>
+
+              <section id="doc-typography" class="doc-section">
+                <h2 class="doc-h2">Text & Spacing</h2>
+                <p class="doc-p">
+                  Standard layout flows rely on fluid typography and vertical height spacing.
+                </p>
+                <ul class="doc-ul">
+                  <li><strong>Text Elements:</strong> Defined using `text = "your text content"`. This compiles to standard, fluid paragraphs using viewport font sizing. The content is automatically escaped to prevent XSS attacks.</li>
+                  <li><strong>Spacing Elements:</strong> Defined using `space.N` where `N` is an integer representing height in viewport height (`vh`) units. For example, `space.10` creates a vertical spacer taking up 10% of the screen height.</li>
+                </ul>
+                <div class="code-block-wrapper">
+                  <pre><code>pg.home [
+  text = "This is a line of text at the top."
+  space.5 // 5vh vertical gap
+  text = "This is a line of text below the gap."
+  space.20 // 20vh large vertical spacer
+  text = "Footer text at the bottom."
+]</code></pre>
+                  <div class="code-actions">
+                    <button class="code-action-btn copy-btn" onclick="copyCode(this)">Copy</button>
+                    <button class="code-action-btn load-btn" onclick="loadExample(this)">Load Code</button>
+                  </div>
+                </div>
+              </section>
+
+              <section id="doc-components" class="doc-section">
+                <h2 class="doc-h2">Components</h2>
+                <p class="doc-p">
+                  Components are added inside a page block using the `add.[type](args)` syntax. GlideScript is tolerant of typos, automatically mapping `add.botton` to standard button elements.
+                </p>
+                
+                <h3 class="doc-h3">1. Box Component (`add.box`)</h3>
+                <p class="doc-p">Renders a container card used to highlight information, group items, or create backdrops.</p>
+                <table class="doc-table">
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>text</code></td>
+                      <td>String</td>
+                      <td>Text content rendered in the center of the box.</td>
+                    </tr>
+                    <tr>
+                      <td><code>colour</code> / <code>color</code></td>
+                      <td>Hex / CSS Color</td>
+                      <td>Background color of the box card.</td>
+                    </tr>
+                    <tr>
+                      <td><code>size</code></td>
+                      <td><code>W and H</code></td>
+                      <td>Width in <code>vw</code> and height in <code>vh</code>. E.g., <code>60 and 25</code>.</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <h3 class="doc-h3">2. Button Component (`add.button` / `add.botton`)</h3>
+                <p class="doc-p">Renders an interactive clickable button element.</p>
+                <table class="doc-table">
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>text</code></td>
+                      <td>String</td>
+                      <td>Text label printed inside the button.</td>
+                    </tr>
+                    <tr>
+                      <td><code>click</code></td>
+                      <td>Action</td>
+                      <td>Navigation event. Format: <code>open pg.[page_name]</code>.</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <h3 class="doc-h3">3. Textbox Component (`add.textbox`)</h3>
+                <p class="doc-p">Renders a responsive input text box capturing state.</p>
+                <table class="doc-table">
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>placeholder</code></td>
+                      <td>String</td>
+                      <td>Instructional text shown inside the input when empty.</td>
+                    </tr>
+                    <tr>
+                      <td><code>var</code></td>
+                      <td>Variable Name</td>
+                      <td>Reactive state variable bound to the value of this textbox.</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <h3 class="doc-h3">4. Image Component (`add.image`)</h3>
+                <p class="doc-p">Renders an image from a URL or relative path.</p>
+                <table class="doc-table">
+                  <thead>
+                    <tr>
+                      <th>Argument</th>
+                      <th>Type</th>
+                      <th>Description</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>src</code> / <code>source</code></td>
+                      <td>URL / Path</td>
+                      <td>The location of the image file.</td>
+                    </tr>
+                    <tr>
+                      <td><code>alt</code></td>
+                      <td>String</td>
+                      <td>Accessibility fallback description for the image.</td>
+                    </tr>
+                  </tbody>
+                </table>
+
+                <div class="code-block-wrapper">
+                  <pre><code>pg.home [
+  text = "Exploring Elements"
+  space.2
+
+  // A rounded decorative card
+  add.box(text = "Information Card", colour = #e8f4f8, size = 80 and 15, edges = rounded)
+  space.2
+
+  // An image element
+  add.image(src = "https://picsum.photos/400/200", alt = "Random Image", size = 80 and 25, edges = rounded)
+  space.2
+
+  // A button linking to the about page
+  add.button(text = "Read More About Us", click = open pg.about, colour = #6e6eff, edges = rounded)
+]
+
+pg.about [
+  text = "About Us"
+  add.button(text = "Go Back", click = open pg.home, edges = rounded)
+]</code></pre>
+                  <div class="code-actions">
+                    <button class="code-action-btn copy-btn" onclick="copyCode(this)">Copy</button>
+                    <button class="code-action-btn load-btn" onclick="loadExample(this)">Load Code</button>
+                  </div>
+                </div>
+              </section>
+
+              <section id="doc-variables" class="doc-section">
+                <h2 class="doc-h2">Variables & Reactive State</h2>
+                <p class="doc-p">
+                  GlideScript supports real-time text binding based on user input. You can bind input text boxes to specific variables, which immediately update downstream layout nodes without reloading the page.
+                </p>
+                <ul class="doc-ul">
+                  <li><strong>Register Variable:</strong> Set `var = [variable_name]` inside `add.textbox(...)`.</li>
+                  <li><strong>Bind Variable:</strong> Place the `when var.[variable_name] has value` directive immediately *before* a text block, box, or button.</li>
+                </ul>
+                <div class="code-block-wrapper">
+                  <pre><code>pg.home [
+  text = "State Bindings Demo"
+  space.2
+
+  text = "Type your nickname below:"
+  add.textbox(placeholder = "Nickname...", var = user_nick, colour = #ffffff, size = 60 and 6, edges = rounded)
+
+  space.4
+
+  // This text block will automatically bind to whatever is typed above
+  when var.user_nick has value
+  text = "Hello, guest!" // Default text is shown before user types
+]</code></pre>
+                  <div class="code-actions">
+                    <button class="code-action-btn copy-btn" onclick="copyCode(this)">Copy</button>
+                    <button class="code-action-btn load-btn" onclick="loadExample(this)">Load Code</button>
+                  </div>
+                </div>
+              </section>
+
+              <section id="doc-styling" class="doc-section">
+                <h2 class="doc-h2">Styling System</h2>
+                <p class="doc-p">
+                  All components (`box`, `button`, `textbox`, `image`) support custom properties inside their parameter parenthesis. These allow precise layout and skinning controls:
+                </p>
+                <table class="doc-table">
+                  <thead>
+                    <tr>
+                      <th>Property</th>
+                      <th>Syntax Example</th>
+                      <th>Effect</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td><code>colour</code> / <code>color</code></td>
+                      <td><code>colour = #2d6a4f</code></td>
+                      <td>Sets the background color of the element.</td>
+                    </tr>
+                    <tr>
+                      <td><code>text-colour</code> / <code>textcolor</code></td>
+                      <td><code>textcolor = #ffffff</code></td>
+                      <td>Sets the typography color inside the element.</td>
+                    </tr>
+                    <tr>
+                      <td><code>size</code></td>
+                      <td><code>size = 50 and 15</code></td>
+                      <td>Sets dimensions: Width of 50vw and Height of 15vh.</td>
+                    </tr>
+                    <tr>
+                      <td><code>location</code></td>
+                      <td><code>location = 10 and 20</code></td>
+                      <td>Positively indexes element: absolute position of left 10vw, top 20vh.</td>
+                    </tr>
+                    <tr>
+                      <td><code>edges</code></td>
+                      <td><code>edges = rounded</code></td>
+                      <td>Applies a 12px border radius to smooth corners.</td>
+                    </tr>
+                    <tr>
+                      <td><code>font-size</code> / <code>fontsize</code></td>
+                      <td><code>fontsize = 2.5</code></td>
+                      <td>Sets font size to 2.5vh (scales on screen size).</td>
+                    </tr>
+                    <tr>
+                      <td><code>opacity</code></td>
+                      <td><code>opacity = 0.8</code></td>
+                      <td>Sets opacity (0.0 fully hidden to 1.0 solid).</td>
+                    </tr>
+                    <tr>
+                      <td><code>border</code></td>
+                      <td><code>border = "2px solid red"</code></td>
+                      <td>Applies custom CSS borders. Use string quotes.</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </section>
+
+              <section id="doc-examples" class="doc-section">
+                <h2 class="doc-h2">Full Application Examples</h2>
+                <p class="doc-p">
+                  Here are some cohesive, complete scripts demonstrating the versatility of GlideScript. Load them directly to test!
+                </p>
+                
+                <h3 class="doc-h3">Example A: The Client Portal</h3>
+                <div class="code-block-wrapper">
+                  <pre><code>pg.login [
+  text = "Client Portal"
+  space.4
+
+  text = "Enter your Client Access Key:"
+  add.textbox(placeholder = "Client Key...", var = key, colour = #ffffff, size = 60 and 6, edges = rounded)
+
+  space.2
+  add.button(text = "Go to Portal", click = open pg.portal, colour = #1f1f2e, edges = rounded)
+]
+
+pg.portal [
+  text = "Security Portal Status"
+  space.2
+
+  when var.key has value
+  add.box(text = "Loading workspace...", colour = #d4edda, size = 80 and 12, edges = rounded)
+
+  space.4
+  text = "Available workspaces:"
+  add.button(text = "General Database", click = open pg.db, colour = #2d6a4f, edges = rounded)
+  add.button(text = "Lock & Logout", click = open pg.login, colour = #6c757d, edges = rounded)
+]
+
+pg.db [
+  pg.hide = true
+  text = "Database Mainframe"
+  space.2
+  add.box(text = "Connecting to remote database instances... Success.", colour = #e8f4f8, size = 80 and 20, edges = rounded)
+  space.4
+  add.button(text = "Return to Portal", click = open pg.portal, edges = rounded)
+]</code></pre>
+                  <div class="code-actions">
+                    <button class="code-action-btn copy-btn" onclick="copyCode(this)">Copy</button>
+                    <button class="code-action-btn load-btn" onclick="loadExample(this)">Load Code</button>
+                  </div>
+                </div>
+
+                <h3 class="doc-h3">Example B: Compact Profile</h3>
+                <div class="code-block-wrapper">
+                  <pre><code>pg.home [
+  space.5
+  add.image(src = "https://picsum.photos/150/150", alt = "User avatar", size = 20 and 20, edges = rounded, location = 40 and 10)
+  
+  space.25
+  text = "Sarah Jenkins"
+  text = "Lead UI Designer & Creative Technologist"
+  
+  space.4
+  add.box(text = "Hello! I design lightweight interfaces and custom application designs using declarative schemas like GlideScript.", colour = #fcf8e3, size = 80 and 15, edges = rounded)
+  
+  space.4
+  add.button(text = "View Portfolio", click = open pg.portfolio, colour = #e84545, edges = rounded)
+]
+
+pg.portfolio [
+  text = "Sarah's Creative Portfolio"
+  space.2
+  add.box(text = "Project A: Fluid Layout Engine", colour = #e8f4f8, size = 85 and 10, edges = rounded)
+  space.2
+  add.box(text = "Project B: SVG Interface Builder", colour = #fff3cd, size = 85 and 10, edges = rounded)
+  space.4
+  add.button(text = "Return to Profile", click = open pg.home, edges = rounded)
+]</code></pre>
+                  <div class="code-actions">
+                    <button class="code-action-btn copy-btn" onclick="copyCode(this)">Copy</button>
+                    <button class="code-action-btn load-btn" onclick="loadExample(this)">Load Code</button>
+                  </div>
+                </div>
+              </section>
+
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Drop overlay -->
+  <div class="drop-zone-overlay" id="drop-overlay">
+    <div class="drop-zone-box">
+      <div class="drop-zone-icon">📄</div>
+      <div class="drop-zone-title">Drop your .gs file</div>
+      <div class="drop-zone-sub">Release to load it into the editor</div>
+    </div>
+  </div>
+
+  <!-- Toast container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <script type="module" src="/src/main.js"></script>
+</body>
+</html>

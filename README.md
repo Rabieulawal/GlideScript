@@ -10,6 +10,9 @@ this language has simple systax and is very readable and this has a web based co
 
 **I will really appreciate if people can contribute to make this the python of web**
 
+### documentation
+a very detailed documentation can be found this the app btw it is deployed of vercel you should be able to see the link wit the repo 
+
 ### Future Features
 - [ ] Add better and more comprehensive styling options
 - [ ] Make an app compiler which allows this to run with any IDE

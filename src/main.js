@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 import './style.css';
+=======
+>>>>>>> 5f0744358e4ff499b8e09d45ff83c6cdba8753a6
 import { EditorView, keymap, lineNumbers, highlightActiveLineGutter, highlightActiveLine } from '@codemirror/view';
 import { EditorState } from '@codemirror/state';
 import { javascript } from '@codemirror/lang-javascript';

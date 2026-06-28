@@ -174,10 +174,7 @@ html, body {
 .workspace {
   display: flex;
   flex: 1;
-<<<<<<< HEAD
   min-height: 0;
-=======
->>>>>>> 5f0744358e4ff499b8e09d45ff83c6cdba8753a6
   overflow: hidden;
 }
 

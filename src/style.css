@@ -1,5 +1,5 @@
 /* ── GlideScript Playground ────────────────────────────────────────
-   Editorial design — flat, intentional, zero AI-slop.
+   Editorial design — flat, intentional, zero AI-slop. the comment do not mean ai 
    ──────────────────────────────────────────────────────────────── */
 
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
@@ -231,10 +231,8 @@ html, body {
 
 .editor-container {
   flex: 1;
-<<<<<<< HEAD
+
   min-height: 0;
-=======
->>>>>>> 5f0744358e4ff499b8e09d45ff83c6cdba8753a6
   overflow: hidden;
   position: relative;
 }
@@ -304,20 +302,15 @@ html, body {
   flex-direction: column;
   flex: 1;
   min-width: 320px;
-<<<<<<< HEAD
+
   min-height: 0;
   overflow: hidden;
-=======
->>>>>>> 5f0744358e4ff499b8e09d45ff83c6cdba8753a6
   background: var(--bg-secondary);
 }
 
 .preview-iframe {
   flex: 1;
-<<<<<<< HEAD
   min-height: 0;
-=======
->>>>>>> 5f0744358e4ff499b8e09d45ff83c6cdba8753a6
   width: 100%;
   border: none;
   background: #ffffff;
@@ -472,11 +465,8 @@ html, body {
 
 .docs-panel {
   flex: 1;
-<<<<<<< HEAD
   min-height: 0;
-=======
   height: calc(100% - 36px);
->>>>>>> 5f0744358e4ff499b8e09d45ff83c6cdba8753a6
   background: var(--bg-secondary);
   display: flex;
   flex-direction: column;

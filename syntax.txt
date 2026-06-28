@@ -1,0 +1,98 @@
+systax of the language 
+
+SiteName = "Name of the site" //shown on the tab the name theere
+SiteDes = "Description of the site" //shown on the tab the description
+
+pg.home[
+    Title = "Title of the site" //the title 
+    space.1 //will add some space the number can be changed 
+    text = "hello world",Size = 10 Font = whatever
+    bg = blue //background can be converted into a colour or
+    bg = myimage.jpg //an image can be added
+
+    Add.Box( 
+        location = x and y
+        Size = l and w
+        colour = red //hex codes will also work
+        edges = rounded //flat can be added too
+        outline = green, size = 12
+    ) 
+    
+    add.navBar(  // nav bars will automatically show all the pages unless the page has been made hidden
+        location = top
+        colour = #ffff //colurs can be typed as well
+        Text.font = sans 
+        Text.colour = black
+        Type = recractable //we can make types fixed will stay and be the defult retractable can be toggled by the user and dynamic will pop up when the users corsour is nearby
+        edges = rounded
+    )
+
+    add.botton( 
+        colour = red
+        edges = rounded
+        click = google.com //can be a url or 
+        click = open Pg.about me  //can open a page
+        click = open image.helloworld.png //can open an image 
+        Text = "click me", C= white ,F=fontname // atributes can be added like that 
+
+
+    )
+]
+
+pg.aboutme[
+
+    Title = "hi this page is about me" 
+    space.17
+    Text = "this is more text",
+    space.5
+    TextBox(
+        type = text //can be text and num also can be text.safe and num.safe for passowrds 
+        max lenght = 12
+        text = "enter your name"
+        Var.name = input //this will be what the user types 
+        style = basic //basic will be the basic html textbox and cool will have some css
+        colour = green 
+    )
+
+    when var.name has value (
+        alert "your name is(name)" // will show the name when typed
+    )
+
+    text = name //var.name will work too, F=font,C=colour
+
+    text = "click for google"(url=google.com)
+    add.botton(
+         colour = red
+        edges = rounded 
+        click = open Pg.admin  //can open a hidden page 
+        Text = "click me", C= white ,F=fontname // atributes can be added like that 
+
+    )
+
+]
+
+pg.admin[
+    Text = "this is very secreat"
+    pg.hide = true
+]
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]
+
+
+
+   
+
+
